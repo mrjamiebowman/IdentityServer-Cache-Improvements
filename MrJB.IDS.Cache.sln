@@ -1,0 +1,35 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31903.59
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{3FB73FA5-618A-403C-8ED2-3C43BF664EB0}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{0BF14936-F6A7-45F6-8427-42BA05F95CFF}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "duende", "duende", "{1BE148CA-58EB-427C-BA71-E073EDEF1425}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MrJB.IDS.Cache", "src\MrJB.IDS.Cache\MrJB.IDS.Cache.csproj", "{E689CB9C-C885-4ABF-BB3C-55B6295A3C16}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{E689CB9C-C885-4ABF-BB3C-55B6295A3C16}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E689CB9C-C885-4ABF-BB3C-55B6295A3C16}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E689CB9C-C885-4ABF-BB3C-55B6295A3C16}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E689CB9C-C885-4ABF-BB3C-55B6295A3C16}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{1BE148CA-58EB-427C-BA71-E073EDEF1425} = {0BF14936-F6A7-45F6-8427-42BA05F95CFF}
+		{E689CB9C-C885-4ABF-BB3C-55B6295A3C16} = {0BF14936-F6A7-45F6-8427-42BA05F95CFF}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {0BBEEB40-9E0D-4CB8-BEF3-AE00DE1666CC}
+	EndGlobalSection
+EndGlobal
