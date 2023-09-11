@@ -6,7 +6,6 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Duende.IdentityServer.AspNetIdentity" Version="6.3.2" />
 
 		<PackageReference Include="Microsoft.AspNetCore.Authentication.Google" Version="6.0.0" />
 		<PackageReference Include="Serilog.AspNetCore" Version="6.0.0" />
@@ -16,5 +15,9 @@
 		<PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="6.0.0" />
 		<PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="6.0.0" />
 		<PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="6.0.0" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <ProjectReference Include="..\IdentityServer\src\AspNetIdentity\Duende.IdentityServer.AspNetIdentity.csproj" />
 	</ItemGroup>
 </Project>
