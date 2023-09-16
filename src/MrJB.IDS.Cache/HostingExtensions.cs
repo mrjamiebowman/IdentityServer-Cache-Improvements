@@ -1,11 +1,18 @@
+using Duende.IdentityServer;
 using Duende.IdentityServer.EntityFramework.Stores;
+using Duende.IdentityServer.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using MrJB.IDS.Cache.Configuration;
 using MrJB.IDS.Cache.Data;
 using MrJB.IDS.Cache.Models;
+using OpenTelemetry.Metrics;
+using OpenTelemetry.Resources;
+using OpenTelemetry.Trace;
 using Serilog;
+using StackExchange.Redis;
 using System.Reflection;
+using System.Runtime.InteropServices;
 
 namespace MrJB.IDS.Cache;
 
@@ -33,6 +40,9 @@ internal static class HostingExtensions
         builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
             .AddEntityFrameworkStores<ApplicationDbContext>()
             .AddDefaultTokenProviders();
+
+        // configure caching
+        builder.Services.ConfigureCaching(isConfig, cacheConfig);
 
         builder.Services
             .AddIdentityServer(options =>
@@ -104,5 +114,65 @@ internal static class HostingExtensions
             .RequireAuthorization();
 
         return app;
+    }
+
+    public static IServiceCollection ConfigureCaching(this IServiceCollection services, IdentityServerConfiguration identityServerConfiguration, CacheConfiguration cacheConfiguration)
+    {
+        // add injections
+        Log.Information("Injecting Redis Cache");
+
+        services.AddSingleton<IRedisCacheService, RedisCacheService>();
+
+        // configure distributed cache using Redis
+        services.AddTransient(typeof(ICache<>), typeof(RedisCache<>));
+
+        // injects IMemoryCache
+        services.AddMemoryCache();
+
+        services.AddStackExchangeRedisCache(options =>
+        {
+            options.Configuration = cacheConfiguration.ConnectionString;
+            options.InstanceName = cacheConfiguration.InstanceName;
+        });
+
+        var multiplexer = ConnectionMultiplexer.Connect(cacheConfiguration.ConnectionString);
+        services.AddSingleton<IConnectionMultiplexer>(multiplexer);
+
+        return services;
+    }
+
+    public static WebApplicationBuilder ConfigureOpenTelemetry(this WebApplicationBuilder builder)
+    {
+        // define attributes for your application
+        var resourceBuilder = ResourceBuilder.CreateDefault()
+            .AddService(OTel.ApplicationName, serviceVersion: "1.0.0")
+            .AddTelemetrySdk()
+            .AddAttributes(new Dictionary<string, object>
+            {
+                ["host.name"] = Environment.MachineName,
+                ["os.description"] = RuntimeInformation.OSDescription,
+                ["deployment.environment"] = builder.Environment.EnvironmentName.ToLowerInvariant()
+            });
+        //.AddConsoleExporter()
+
+        // add open telemetry with azure monitor (application insights)
+        builder.Services
+            .AddOpenTelemetry()
+            .WithTracing(tb => tb
+                    .AddSource(OTel.Application.Name)
+                    .AddSource(IdentityServerConstants.Tracing.Basic)
+                    .AddSource(IdentityServerConstants.Tracing.Cache)
+                    .AddSource(IdentityServerConstants.Tracing.Services)
+                    .AddSource(IdentityServerConstants.Tracing.Stores)
+                    .AddSource(IdentityServerConstants.Tracing.Validation)
+                    .ConfigureResource(r => r.AddService(OTel.ApplicationName))
+            //.AddAzureMonitorTraceExporter(options => options.ConnectionString = appInsightsConnectionString)
+            )
+            .WithMetrics(mb => mb.ConfigureResource(r => r.AddService(OTel.ApplicationName)))
+            //.AddAzureMonitorMetricExporter(options => options.ConnectionString = appInsightsConnectionString)
+            //.AddConsoleExporter()
+            ;
+
+        return builder;
     }
 }
