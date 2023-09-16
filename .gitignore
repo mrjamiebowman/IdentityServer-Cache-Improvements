@@ -6,6 +6,8 @@
 # appsettings.json
 appsettings.json
 
+src/MrJB.IDS.Cache/keys/
+
 # User-specific files
 *.rsuser
 *.suo

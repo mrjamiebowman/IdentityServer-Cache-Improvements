@@ -4,7 +4,7 @@ public class CacheConfiguration
 {
     public const string Position = "Cache";
 
-    public string ConnectionString { get; set; }
+    public string ConnectionString { get; set; } = "";
 
     public string InstanceName { get; set; }
 

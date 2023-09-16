@@ -1,0 +1,15 @@
+version: "3.9"
+services:
+  mssql:
+    build:
+      context: ./docker/mssql
+    container_name: mrjb-ids-cache-mssql
+    ports:
+      - 1433:1433
+    environment:
+     - ACCEPT_EULA=Y
+     - SA_PASSWORD=im938eKAW3K7qM0GZ
+    volumes:
+      - sqlvolume:/var/opt/mssql
+volumes:
+  sqlvolume:

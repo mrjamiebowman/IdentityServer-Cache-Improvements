@@ -9,6 +9,8 @@
 
 		<PackageReference Include="Microsoft.AspNetCore.Authentication.Google" Version="6.0.0" />
 
+		<PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="7.0.11" />
+
 		<PackageReference Include="OpenTelemetry" Version="1.6.0" />
 
 		<PackageReference Include="OpenTelemetry.Exporter.Console" Version="1.6.0" />
@@ -24,6 +26,9 @@
 
 	<ItemGroup>
 	  <ProjectReference Include="..\IdentityServer\src\AspNetIdentity\Duende.IdentityServer.AspNetIdentity.csproj" />
+	  <ProjectReference Include="..\IdentityServer\src\EntityFramework.Storage\Duende.IdentityServer.EntityFramework.Storage.csproj" />
+	  <ProjectReference Include="..\IdentityServer\src\EntityFramework\Duende.IdentityServer.EntityFramework.csproj" />
+	  <ProjectReference Include="..\IdentityServer\src\IdentityServer\Duende.IdentityServer.csproj" />
 	</ItemGroup>
 
 	<ItemGroup>
