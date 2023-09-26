@@ -12,8 +12,10 @@ src/IdentityServer/Services/ICache.cs
 src/IdentityServer/Services/Default/DefaultCache.cs   
 src/IdentityServer/Stores/Caching/CachingResourceStore.cs   
 
-## Git Clone
+## Git Clone / Submodules
 `git clone --recurse-submodules git@github.com:mrjamiebowman/IdentityServer-Cache-Improvements.git`   
+`git submodule update --init --recursive`   
+
 
 ## Packages
 StackExchange.Redis   
