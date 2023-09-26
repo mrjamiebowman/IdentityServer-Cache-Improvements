@@ -7,6 +7,14 @@
         "ASPNETCORE_ENVIRONMENT": "Development"
       },
       "applicationUrl": "https://localhost:5001"
+    },
+    "Seed": {
+      "commandName": "Project",
+      "launchBrowser": true,
+      "commandLineArgs": "/seed",
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      },
     }
   }
 }
