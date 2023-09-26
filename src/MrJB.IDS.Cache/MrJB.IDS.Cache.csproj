@@ -7,11 +7,11 @@
 
 	<ItemGroup>
 
-		<PackageReference Include="Microsoft.AspNetCore.Authentication.Google" Version="7.0.11" />
+		<PackageReference Include="Microsoft.AspNetCore.Authentication.Google" Version="8.0.0-rc.1.23421.29" />
 
-		<PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="7.0.11" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="8.0.0-rc.1.23419.6" />
 
-		<PackageReference Include="Microsoft.Extensions.Caching.StackExchangeRedis" Version="7.0.11" />
+		<PackageReference Include="Microsoft.Extensions.Caching.StackExchangeRedis" Version="8.0.0-rc.1.23421.29" />
 
 		<PackageReference Include="OpenTelemetry" Version="1.6.0" />
 
@@ -22,11 +22,11 @@
 		<PackageReference Include="OpenTelemetry.Extensions.Hosting" Version="1.6.0" />
 		<PackageReference Include="Serilog.AspNetCore" Version="7.0.0" />
 
-		<PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="7.0.11" />
-		<PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="7.0.11" />
-		<PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="7.0.11" />
-		<PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="7.0.11" />
-		<PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="7.0.11">
+		<PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="8.0.0-rc.1.23421.29" />
+		<PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="8.0.0-rc.1.23421.29" />
+		<PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="8.0.0-rc.1.23421.29" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="8.0.0-rc.1.23419.6" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="8.0.0-rc.1.23419.6">
 		  <PrivateAssets>all</PrivateAssets>
 		  <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
@@ -35,7 +35,9 @@
 
 	<ItemGroup>
 	  <ProjectReference Include="..\IdentityServer\src\AspNetIdentity\Duende.IdentityServer.AspNetIdentity.csproj" />
+	  <ProjectReference Include="..\IdentityServer\src\EntityFramework.Storage\Duende.IdentityServer.EntityFramework.Storage.csproj" />
 	  <ProjectReference Include="..\IdentityServer\src\EntityFramework\Duende.IdentityServer.EntityFramework.csproj" />
+	  <ProjectReference Include="..\IdentityServer\src\IdentityServer\Duende.IdentityServer.csproj" />
 	</ItemGroup>
 
 	<ItemGroup>
