@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # wait for the SQL Server to come up
-sleep 25s
+sleep 30s
 
 echo "[+] Running SQL Setup Script"
 
