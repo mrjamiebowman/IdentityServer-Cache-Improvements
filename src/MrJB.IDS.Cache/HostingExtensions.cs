@@ -32,7 +32,7 @@ internal static class HostingExtensions
         builder.Configuration.GetSection(CacheConfiguration.Position).Bind(cacheConfig);
 
         builder.Services.AddDbContext<ApplicationDbContext>(options =>
-                            options.UseSqlite(isConfig.ConnectionString));
+                            options.UseSqlServer(isConfig.ConnectionString));
         
         // assembly name
         var migrationsAssembly = typeof(Program).GetTypeInfo().Assembly.GetName().Name;
