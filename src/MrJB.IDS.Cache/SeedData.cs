@@ -1,10 +1,10 @@
 ﻿using IdentityModel;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using MrJB.IDS.Cache.Data;
 using MrJB.IDS.Cache.Models;
 using Serilog;
 using System.Security.Claims;
+using MrJB.IDS.Cache.EntityFramework;
 
 namespace MrJB.IDS.Cache;
 

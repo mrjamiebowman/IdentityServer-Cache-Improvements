@@ -1,7 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using System.Diagnostics;
 
-namespace MrJB.IDS.Cache.Data;
+namespace MrJB.IDS.Cache.EntityFramework;
 
 public class MigrationsDbContext : ApplicationDbContext
 {

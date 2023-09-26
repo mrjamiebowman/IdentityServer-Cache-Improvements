@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using MrJB.IDS.Cache.Models;
 
-namespace MrJB.IDS.Cache.Data;
+namespace MrJB.IDS.Cache.EntityFramework;
 
 public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
 {

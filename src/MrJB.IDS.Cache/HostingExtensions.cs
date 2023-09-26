@@ -4,7 +4,6 @@ using Duende.IdentityServer.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using MrJB.IDS.Cache.Configuration;
-using MrJB.IDS.Cache.Data;
 using MrJB.IDS.Cache.Models;
 using OpenTelemetry.Metrics;
 using OpenTelemetry.Resources;
@@ -13,6 +12,7 @@ using Serilog;
 using StackExchange.Redis;
 using System.Reflection;
 using System.Runtime.InteropServices;
+using MrJB.IDS.Cache.EntityFramework;
 
 namespace MrJB.IDS.Cache;
 
