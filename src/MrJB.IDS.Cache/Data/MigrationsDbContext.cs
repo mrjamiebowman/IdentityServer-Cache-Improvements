@@ -7,16 +7,16 @@ public class MigrationsDbContext : ApplicationDbContext
 {
     public MigrationsDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
     {
-        Debugger.Launch();
+        
     }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
-        Debugger.Launch();
-
         // override connection string
         string connectionString = "Persist Security Info=False;User ID=sa;Password=im938eKAW3K7qM0GZ;Initial Catalog=mrjb-identityserver;Server=127.0.0.1;Encrypt=True;TrustServerCertificate=True";
 
         optionsBuilder.UseSqlServer(connectionString);
+
+        //Debugger.Launch();
     }
 }
