@@ -11,5 +11,16 @@ services:
      - SA_PASSWORD=im938eKAW3K7qM0GZ
     volumes:
       - sqlvolume:/var/opt/mssql
+  keydb:
+    image: eqalpha/keydb
+    container_name: mrjb-ids-cache-keydb
+    restart: always
+    ports:
+      - '6379:6379'
+    command: keydb-server --save 20 1 --loglevel warning --requirepass 8pmNXjr4Hlk88QuZ0NRys5N
+    volumes: 
+      - cache:/data
 volumes:
+  cache:
+    driver: local    
   sqlvolume:
