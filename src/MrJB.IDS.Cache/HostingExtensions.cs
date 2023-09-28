@@ -22,6 +22,10 @@ internal static class HostingExtensions
     {
         builder.Services.AddRazorPages();
 
+        // connection strings
+        var aspNetUsersConnectionString = builder.Configuration.GetConnectionString("AspNetUsers");
+        var identityServerConnectionString = builder.Configuration.GetConnectionString("IdentityServer");
+
         // configuration
         var isConfig = new IdentityServerConfiguration();
         builder.Configuration.GetSection(IdentityServerConfiguration.Position).Bind(isConfig);
@@ -31,8 +35,8 @@ internal static class HostingExtensions
         var cacheConfig = new CacheConfiguration();
         builder.Configuration.GetSection(CacheConfiguration.Position).Bind(cacheConfig);
 
-        builder.Services.AddDbContext<ApplicationDbContext>(options =>
-                            options.UseSqlServer(isConfig.ConnectionString));
+        // dbContext: asp.net users
+        builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(aspNetUsersConnectionString));
         
         // assembly name
         var migrationsAssembly = typeof(Program).GetTypeInfo().Assembly.GetName().Name;
@@ -65,14 +69,14 @@ internal static class HostingExtensions
             .AddAspNetIdentity<ApplicationUser>()
             .AddConfigurationStore(options =>
             {
-                options.ConfigureDbContext = b => b.UseSqlServer(isConfig.ConnectionString, sql => sql.MigrationsAssembly(migrationsAssembly));
+                options.ConfigureDbContext = b => b.UseSqlServer(aspNetUsersConnectionString, sql => sql.MigrationsAssembly(migrationsAssembly));
             })
         .AddOperationalStore(options =>
         {
             // disable automatic token clean up since we have a worker service that does this.
             // Read: https://www.identityserver.com/articles/efficient-cleaning-up-of-the-persisted-grant-table
             options.EnableTokenCleanup = false;
-            options.ConfigureDbContext = b => b.UseSqlServer(isConfig.ConnectionString, sql => sql.MigrationsAssembly(migrationsAssembly));
+            options.ConfigureDbContext = b => b.UseSqlServer(identityServerConnectionString, sql => sql.MigrationsAssembly(migrationsAssembly));
             options.RemoveConsumedTokens = true;
         })
         /* cache configuration */
@@ -111,7 +115,7 @@ internal static class HostingExtensions
         app.UseAuthorization();
         
         app.MapRazorPages()
-            .RequireAuthorization();
+           .RequireAuthorization();
 
         return app;
     }

@@ -1,5 +1,7 @@
-﻿using MrJB.IDS.Cache;
+﻿using Microsoft.EntityFrameworkCore;
+using MrJB.IDS.Cache;
 using Serilog;
+using System.Diagnostics;
 
 Log.Logger = new LoggerConfiguration()
     .WriteTo.Console()
@@ -34,6 +36,7 @@ try
     }
     catch (Exception ex)
     {
+        Debugger.Launch();
         throw ex;
     }
 
@@ -48,6 +51,7 @@ catch (Exception ex) when (
                         )
 {
     Log.Fatal(ex, "Unhandled exception");
+    Debugger.Launch();
 }
 finally
 {

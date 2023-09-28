@@ -35,9 +35,7 @@
 
 	<ItemGroup>
 	  <ProjectReference Include="..\IdentityServer\src\AspNetIdentity\Duende.IdentityServer.AspNetIdentity.csproj" />
-	  <ProjectReference Include="..\IdentityServer\src\EntityFramework.Storage\Duende.IdentityServer.EntityFramework.Storage.csproj" />
 	  <ProjectReference Include="..\IdentityServer\src\EntityFramework\Duende.IdentityServer.EntityFramework.csproj" />
-	  <ProjectReference Include="..\IdentityServer\src\IdentityServer\Duende.IdentityServer.csproj" />
 	</ItemGroup>
 
 	<ItemGroup>

@@ -1,10 +1,12 @@
-﻿using IdentityModel;
+﻿using Duende.IdentityServer.EntityFramework.DbContexts;
+using Duende.IdentityServer.EntityFramework.Mappers;
+using IdentityModel;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using MrJB.IDS.Cache.EntityFramework;
 using MrJB.IDS.Cache.Models;
 using Serilog;
 using System.Security.Claims;
-using MrJB.IDS.Cache.EntityFramework;
 
 namespace MrJB.IDS.Cache;
 
@@ -13,12 +15,53 @@ public class SeedData
     public static void EnsureSeedData(WebApplication app)
     {
         using var scope = app.Services.GetRequiredService<IServiceScopeFactory>().CreateScope();
+        SeedAspNetDb(scope);
+        SeedIdentityDb(scope);
+    }
 
+    private static void SeedIdentityDb(IServiceScope scope)
+    {
+        scope.ServiceProvider.GetRequiredService<PersistedGrantDbContext>().Database.Migrate();
+
+        var context = scope.ServiceProvider.GetRequiredService<ConfigurationDbContext>();
+        context.Database.Migrate();
+
+        if (!context.Clients.Any())
+        {
+            foreach (var client in Config.Clients)
+            {
+                context.Clients.Add(client.ToEntity());
+            }
+            context.SaveChanges();
+        }
+
+        if (!context.IdentityResources.Any())
+        {
+            foreach (var resource in Config.IdentityResources)
+            {
+                context.IdentityResources.Add(resource.ToEntity());
+            }
+            context.SaveChanges();
+        }
+
+        if (!context.ApiScopes.Any())
+        {
+            foreach (var resource in Config.ApiScopes)
+            {
+                context.ApiScopes.Add(resource.ToEntity());
+            }
+            context.SaveChanges();
+        }
+    }
+
+    private static void SeedAspNetDb(IServiceScope scope)
+    {
         var context = scope.ServiceProvider.GetService<ApplicationDbContext>();
         context.Database.Migrate();
 
         var userMgr = scope.ServiceProvider.GetRequiredService<UserManager<ApplicationUser>>();
         var alice = userMgr.FindByNameAsync("alice").Result;
+
         if (alice == null)
         {
             alice = new ApplicationUser
@@ -51,6 +94,7 @@ public class SeedData
         }
 
         var bob = userMgr.FindByNameAsync("bob").Result;
+
         if (bob == null)
         {
             bob = new ApplicationUser
@@ -59,7 +103,9 @@ public class SeedData
                 Email = "BobSmith@email.com",
                 EmailConfirmed = true
             };
+
             var result = userMgr.CreateAsync(bob, "Pass123$").Result;
+
             if (!result.Succeeded)
             {
                 throw new Exception(result.Errors.First().Description);
@@ -72,10 +118,12 @@ public class SeedData
                 new Claim(JwtClaimTypes.WebSite, "http://bob.com"),
                 new Claim("location", "somewhere")
             }).Result;
+
             if (!result.Succeeded)
             {
                 throw new Exception(result.Errors.First().Description);
             }
+
             Log.Debug("bob created");
         }
         else
