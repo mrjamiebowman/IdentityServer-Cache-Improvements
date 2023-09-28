@@ -1,9 +1,9 @@
-﻿using Microsoft.Extensions.Caching.Distributed;
+﻿using System.Text.Json;
+using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.Options;
 using MrJB.IDS.Cache.Configuration;
-using System.Text.Json;
 
-namespace MrJB.IDS.Cache;
+namespace MrJB.IDS.Cache.Cache;
 
 public class RedisCacheService : IRedisCacheService
 {
