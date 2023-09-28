@@ -13,6 +13,7 @@ using Serilog;
 using StackExchange.Redis;
 using System.Reflection;
 using System.Runtime.InteropServices;
+using MrJB.IDS.Cache.Cache;
 
 namespace MrJB.IDS.Cache;
 

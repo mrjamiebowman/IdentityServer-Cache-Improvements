@@ -1,9 +1,9 @@
-﻿using Duende.IdentityServer.Services;
+﻿using System.Text.Json;
+using Duende.IdentityServer.Services;
 using OpenTelemetry.Trace;
 using StackExchange.Redis;
-using System.Text.Json;
 
-namespace MrJB.IDS.Cache;
+namespace MrJB.IDS.Cache.Cache;
 
 public class RedisCache<T> : ICache<T> where T : class
 {
