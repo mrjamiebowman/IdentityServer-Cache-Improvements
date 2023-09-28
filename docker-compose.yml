@@ -4,6 +4,7 @@ services:
     build:
       context: ./docker/mssql
     container_name: mrjb-ids-cache-mssql
+    restart: always
     ports:
       - 1433:1433
     environment:
