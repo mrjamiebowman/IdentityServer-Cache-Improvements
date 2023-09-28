@@ -1,8 +1,10 @@
+using Azure.Monitor.OpenTelemetry.Exporter;
 using Duende.IdentityServer;
 using Duende.IdentityServer.EntityFramework.Stores;
 using Duende.IdentityServer.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using MrJB.IDS.Cache.Cache;
 using MrJB.IDS.Cache.Configuration;
 using MrJB.IDS.Cache.EntityFramework;
 using MrJB.IDS.Cache.Models;
@@ -13,7 +15,6 @@ using Serilog;
 using StackExchange.Redis;
 using System.Reflection;
 using System.Runtime.InteropServices;
-using MrJB.IDS.Cache.Cache;
 
 namespace MrJB.IDS.Cache;
 
@@ -38,6 +39,7 @@ internal static class HostingExtensions
 
         // dbContext: asp.net users
         builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(aspNetUsersConnectionString));
+
         
         // assembly name
         var migrationsAssembly = typeof(Program).GetTypeInfo().Assembly.GetName().Name;
@@ -103,6 +105,9 @@ internal static class HostingExtensions
             //})
         ;
 
+        var applicationInsightsConnectionString = builder.Configuration.GetConnectionString("ApplicationInsights");
+        builder.ConfigureOpenTelemetry(applicationInsightsConnectionString);
+
         return builder.Build();
     }
     
@@ -151,7 +156,7 @@ internal static class HostingExtensions
         return services;
     }
 
-    public static WebApplicationBuilder ConfigureOpenTelemetry(this WebApplicationBuilder builder)
+    public static WebApplicationBuilder ConfigureOpenTelemetry(this WebApplicationBuilder builder, string appInsightsConnectionString)
     {
         // define attributes for your application
         var resourceBuilder = ResourceBuilder.CreateDefault()
@@ -162,26 +167,29 @@ internal static class HostingExtensions
                 ["host.name"] = Environment.MachineName,
                 ["os.description"] = RuntimeInformation.OSDescription,
                 ["deployment.environment"] = builder.Environment.EnvironmentName.ToLowerInvariant()
-            });
-        //.AddConsoleExporter()
+            })
+        ;
 
         // add open telemetry with azure monitor (application insights)
         builder.Services
             .AddOpenTelemetry()
             .WithTracing(tb => tb
-                    .AddSource(OTel.Application.Name)
-                    .AddSource(IdentityServerConstants.Tracing.Basic)
-                    .AddSource(IdentityServerConstants.Tracing.Cache)
-                    .AddSource(IdentityServerConstants.Tracing.Services)
-                    .AddSource(IdentityServerConstants.Tracing.Stores)
-                    .AddSource(IdentityServerConstants.Tracing.Validation)
-                    .ConfigureResource(r => r.AddService(OTel.ApplicationName))
-            //.AddAzureMonitorTraceExporter(options => options.ConnectionString = appInsightsConnectionString)
+                .AddSource(OTel.Application.Name)
+                .AddSource(IdentityServerConstants.Tracing.Basic)
+                .AddSource(IdentityServerConstants.Tracing.Cache)
+                .AddSource(IdentityServerConstants.Tracing.Services)
+                .AddSource(IdentityServerConstants.Tracing.Stores)
+                .AddSource(IdentityServerConstants.Tracing.Validation)
+                .ConfigureResource(r => r.AddService(OTel.ApplicationName))
+                .AddAzureMonitorTraceExporter(options => options.ConnectionString = appInsightsConnectionString)
+                .AddConsoleExporter()
             )
-            .WithMetrics(mb => mb.ConfigureResource(r => r.AddService(OTel.ApplicationName)))
-            //.AddAzureMonitorMetricExporter(options => options.ConnectionString = appInsightsConnectionString)
-            //.AddConsoleExporter()
-            ;
+            .WithMetrics(mb => mb
+                .ConfigureResource(r => r.AddService(OTel.ApplicationName))
+                .AddAzureMonitorMetricExporter(options => options.ConnectionString = appInsightsConnectionString)
+                .AddConsoleExporter()
+            )
+        ;
 
         return builder;
     }
