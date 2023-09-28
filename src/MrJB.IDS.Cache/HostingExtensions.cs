@@ -4,6 +4,7 @@ using Duende.IdentityServer.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using MrJB.IDS.Cache.Configuration;
+using MrJB.IDS.Cache.EntityFramework;
 using MrJB.IDS.Cache.Models;
 using OpenTelemetry.Metrics;
 using OpenTelemetry.Resources;
@@ -12,7 +13,6 @@ using Serilog;
 using StackExchange.Redis;
 using System.Reflection;
 using System.Runtime.InteropServices;
-using MrJB.IDS.Cache.EntityFramework;
 
 namespace MrJB.IDS.Cache;
 
@@ -71,18 +71,23 @@ internal static class HostingExtensions
             {
                 options.ConfigureDbContext = b => b.UseSqlServer(aspNetUsersConnectionString, sql => sql.MigrationsAssembly(migrationsAssembly));
             })
-        .AddOperationalStore(options =>
-        {
-            // disable automatic token clean up since we have a worker service that does this.
-            // Read: https://www.identityserver.com/articles/efficient-cleaning-up-of-the-persisted-grant-table
-            options.EnableTokenCleanup = false;
-            options.ConfigureDbContext = b => b.UseSqlServer(identityServerConnectionString, sql => sql.MigrationsAssembly(migrationsAssembly));
-            options.RemoveConsumedTokens = true;
-        })
-        /* cache configuration */
-        .AddClientStoreCache<ClientStore>()
-        .AddResourceStoreCache<ResourceStore>()
-        ;
+            .AddOperationalStore(options =>
+            {
+                // disable automatic token clean up since we have a worker service that does this.
+                // Read: https://www.identityserver.com/articles/efficient-cleaning-up-of-the-persisted-grant-table
+                options.EnableTokenCleanup = false;
+                options.ConfigureDbContext = b => b.UseSqlServer(identityServerConnectionString, sql => sql.MigrationsAssembly(migrationsAssembly));
+                options.RemoveConsumedTokens = true;
+            })
+            /* cache configuration */
+            .AddClientStoreCache<ClientStore>()
+            .AddResourceStoreCache<ResourceStore>()
+
+            //.AddClientStoreCache<YourCustomClientStore>()
+            //.AddCorsPolicyCache<YourCustomCorsPolicyService>()
+            //.AddResourceStoreCache<YourCustomResourceStore>()
+            //.AddIdentityProviderStoreCache<YourCustomAddIdentityProviderStore>()
+            ;
         
         builder.Services.AddAuthentication()
             //.AddGoogle(options =>
@@ -130,8 +135,8 @@ internal static class HostingExtensions
         // configure distributed cache using Redis
         services.AddTransient(typeof(ICache<>), typeof(RedisCache<>));
 
-        // injects IMemoryCache
-        services.AddMemoryCache();
+        //// injects IMemoryCache
+        //services.AddMemoryCache();
 
         services.AddStackExchangeRedisCache(options =>
         {
