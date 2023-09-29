@@ -1,7 +1,10 @@
 {
 	"info": {
+		"_postman_id": "52faf455-a9e1-4487-8956-eebc6e7c4312",
 		"name": "Identity Server (Caching)",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "69604",
+		"_collection_link": "https://galactic-robot-7410.postman.co/workspace/mrjamiebowman~82196ec0-a6b4-45ab-9455-ef1a84b7c0bf/collection/69604-52faf455-a9e1-4487-8956-eebc6e7c4312?action=share&source=collection_link&creator=69604"
 	},
 	"item": [
 		{
