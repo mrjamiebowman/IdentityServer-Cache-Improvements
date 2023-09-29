@@ -14,8 +14,28 @@ public static class Config
     public static IEnumerable<ApiScope> ApiScopes =>
         new ApiScope[]
         {
+            new ApiScope("tenantId"),
+            new ApiScope("companyId"),
             new ApiScope("scope1"),
             new ApiScope("scope2"),
+            new ApiScope("scope3"),
+            new ApiScope("scope4"),
+            new ApiScope("scope5"),
+            new ApiScope("scope6"),
+            new ApiScope("scope7"),
+            new ApiScope("scope8"),
+            new ApiScope("scope9"),
+            new ApiScope("scope10"),
+            new ApiScope("scope11"),
+            new ApiScope("scope12"),
+            new ApiScope("scope13"),
+            new ApiScope("scope14"),
+            new ApiScope("scope15"),
+            new ApiScope("scope16"),
+            new ApiScope("scope17"),
+            new ApiScope("scope18"),
+            new ApiScope("scope19"),
+            new ApiScope("scope20"),
         };
 
     public static IEnumerable<Client> Clients =>
@@ -30,7 +50,7 @@ public static class Config
                 AllowedGrantTypes = GrantTypes.ClientCredentials,
                 ClientSecrets = { new Secret("511536EF-F270-4058-80CA-1C89C192F69A".Sha256()) },
 
-                AllowedScopes = { "scope1" }
+                AllowedScopes = { "tenantId", "companyId", "scope1", "scope2", "scope3", "scope4", "scope5", "scope6", "scope7", "scope8", "scope9", "scope10" }
             },
 
             // interactive client using code flow + pkce
@@ -46,7 +66,7 @@ public static class Config
                 PostLogoutRedirectUris = { "https://localhost:44300/signout-callback-oidc" },
 
                 AllowOfflineAccess = true,
-                AllowedScopes = { "openid", "profile", "scope2" }
+                AllowedScopes = { "openid", "profile", "tenantId", "companyId", "scope2", "scope3", "scope4", "scope5", "scope6", "scope7", "scope8", "scope9", "scope10" }
             },
         };
 }
