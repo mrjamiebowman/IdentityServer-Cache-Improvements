@@ -1,0 +1,48 @@
+{
+	"info": {
+		"name": "Identity Server (Caching)",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+	},
+	"item": [
+		{
+			"name": "m2m.client",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "client_id",
+							"value": "m2m.client",
+							"type": "text"
+						},
+						{
+							"key": "client_secret",
+							"value": "511536EF-F270-4058-80CA-1C89C192F69A",
+							"type": "text"
+						},
+						{
+							"key": "grant_type",
+							"value": "client_credentials",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "https://localhost:5001/connect/token",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "5001",
+					"path": [
+						"connect",
+						"token"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
